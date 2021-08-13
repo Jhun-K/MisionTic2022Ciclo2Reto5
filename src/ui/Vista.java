@@ -2,11 +2,8 @@ package ui;
 
 import model.Estudiante;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.sql.SQLException;
 import controlador.Controlador;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Vista {
