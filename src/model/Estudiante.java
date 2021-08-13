@@ -20,6 +20,10 @@ public class Estudiante extends Persona {
         this.numeroFijo = numeroFijo;
         this.carrera = carrera;
     }
+    
+    public Estudiante ( String nombres, String apellidos ) {
+        super(nombres, apellidos);
+    }
 
     public String getCorreoPersonal() {
         return correoPersonal;

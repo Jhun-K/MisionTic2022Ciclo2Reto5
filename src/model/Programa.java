@@ -216,5 +216,79 @@ public class Programa {
         }
         return estudiante;
     }
+    
+    public ArrayList<Estudiante> buscarEstudiantePorApellidosBD( String apellidos )
+    throws ClassNotFoundException, SQLException
+    {
+        ArrayList<Estudiante> estudiantesBD = new ArrayList<>();
+        
+        Connection connection;
+        PreparedStatement ps;
+        ResultSet rs;
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        connection = DriverManager.getConnection(URL, USUARIO, CONTRASEÑA);
+        
+        String nombres;
+        String fechaNacimiento;
+        String correoInstitucional;
+        String correoPersonal;
+        long numeroCelular;
+        long numeroFijo;
+        String carrera;
+        
+        ps = connection.prepareStatement
+        (
+           "SELECT * FROM estudiantes WHERE Apellidos=?;"
+        );
+        ps.setString(1, apellidos);
+        rs = ps.executeQuery();
+        
+        while ( rs.next() ) {
+            nombres = rs.getString("Nombres");
+            apellidos = rs.getString("Apellidos");
+            fechaNacimiento = rs.getString("FechaNacimiento");
+            correoInstitucional = rs.getString("CorreoInstitucional");
+            correoPersonal = rs.getString("CorreoPersonal");
+            numeroCelular = Long.parseLong(rs.getString("NumeroCelular"));
+            numeroFijo = Long.parseLong(rs.getString("NumeroFijo"));
+            carrera = rs.getString("Carrera");
+            estudiantesBD.add(new Estudiante
+                (nombres, apellidos, fechaNacimiento, correoInstitucional, correoPersonal,
+                numeroCelular, numeroFijo, carrera)
+            );
+        }
+        
+        return estudiantesBD;
+    }
+    
+    public ArrayList<Estudiante> buscarEstudiantesPorCarreraBD( String carrera )
+    throws ClassNotFoundException, SQLException
+    {
+        ArrayList<Estudiante> estudiantesBD = new ArrayList<>();
+        
+        Connection connection;
+        PreparedStatement ps;
+        ResultSet rs;
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        connection = DriverManager.getConnection(URL, USUARIO, CONTRASEÑA);
+        
+        String nombres;
+        String apellidos;
+        
+        ps = connection.prepareStatement
+        (
+           "SELECT Nombres, Apellidos FROM estudiantes WHERE Carrera=?;"
+        );
+        ps.setString(1, carrera);
+        rs = ps.executeQuery();
+        
+        while ( rs.next() ) {
+            nombres = rs.getString("Nombres");
+            apellidos = rs.getString("Apellidos");
+            estudiantesBD.add(new Estudiante(nombres, apellidos));
+        }
+        
+        return estudiantesBD;
+    }
 
 }

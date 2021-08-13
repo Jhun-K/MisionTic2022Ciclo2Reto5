@@ -98,20 +98,41 @@ public class Vista {
     }
 
     private void vistaOpcion2() {
-        String mensaje = "Buscar estudiante\n" + "Ingresar correo institucional:";
-        String correoInstitucional = JOptionPane.showInputDialog(mensaje);
+        String mensaje = "Buscar un estudiante.\n" 
+            + "1. Buscar estudiante por medio de su correo institucional.\n"
+            + "2. Buscar estudiantes por medio de un apellido.\n"
+            + "3. Mostrar los datos de los estudiantes que estan en un determinado programa.\n"
+            + "4. Mostrar el numero de estudiantes que estan en un determinado programa.\n"
+            + "5. Mostrar estudiantes nacidos en una determinada fecha.\n"
+            + "6. Buscar estudiante por medio de su numero de telefono.\n";
         
-        Estudiante e = null;
+        int opcion;
+        
         try {
-            e = controlador.getPrograma().buscarEstudianteBD(correoInstitucional); 
-        } catch ( ClassNotFoundException | SQLException ex ) {
-            JOptionPane.showMessageDialog(null, "Error: " + ex);
+            opcion = Integer.parseInt(JOptionPane.showInputDialog(mensaje));
+        } catch ( NumberFormatException ex ) {
+            opcion = 0;
         }
         
-        if ( e != null ) {
-            JOptionPane.showMessageDialog(null, "Información del estudiante\n" + e);
-        } else {
-            JOptionPane.showMessageDialog(null, "El estudiante no se encuentra registrado en el instituto");
+        switch ( opcion ) {
+            case 1:
+                opcion1VO2();
+                break;
+            case 2:
+                opcion2VO2();
+                break;
+            case 3:
+                opcion3VO2();
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            default:
+                JOptionPane.showMessageDialog(null, "Digita una opcion valida.");
+                break;
         }
     }
 
@@ -204,5 +225,69 @@ public class Vista {
             mensaje += e + "\n";
         }
         JOptionPane.showMessageDialog(null, mensaje);
+    }
+    
+    private void opcion1VO2()
+    {
+        String mensaje = "Buscar estudiante\n" + "Ingresar correo institucional:";
+        String correoInstitucional = JOptionPane.showInputDialog(mensaje);
+        
+        Estudiante e = null;
+        try {
+            e = controlador.getPrograma().buscarEstudianteBD(correoInstitucional); 
+        } catch ( ClassNotFoundException | SQLException ex ) {
+            JOptionPane.showMessageDialog(null, "Error: " + ex);
+        }
+        
+        if ( e != null ) {
+            JOptionPane.showMessageDialog(null, "Información del estudiante\n" + e);
+        } else {
+            JOptionPane.showMessageDialog(null, "El estudiante no se encuentra registrado en el instituto");
+        }
+    }
+    
+    private void opcion2VO2()
+    {
+        String mensaje = "Ingresa el apellido: ";
+        String apellidos = JOptionPane.showInputDialog(mensaje);
+        
+        ArrayList<Estudiante> est;
+        
+        try {
+            est = controlador.getPrograma().buscarEstudiantePorApellidosBD(apellidos);
+        } catch ( ClassNotFoundException | SQLException ex ) {
+            JOptionPane.showMessageDialog(null, "Error: " + ex);
+            est = new ArrayList<>();
+        } 
+        
+        if ( est.size() != 0 ) {
+            for ( var e : est ) {
+                JOptionPane.showMessageDialog(null, e + "\n");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay estudiantes con ese apellido.");
+        }
+    }
+    
+    private void opcion3VO2(){
+        String mensaje = "Ingresa la carrera: ";
+        String carrera = JOptionPane.showInputDialog(mensaje);
+        
+        ArrayList<Estudiante> est;
+        
+        try {
+            est = controlador.getPrograma().buscarEstudiantesPorCarreraBD(carrera);
+        } catch ( ClassNotFoundException | SQLException ex ) {
+            JOptionPane.showMessageDialog(null, "Error: " + ex);
+            est = new ArrayList<>();
+        } 
+        
+        if ( est.size() != 0 ) {
+            for ( var e : est ) {
+                JOptionPane.showMessageDialog(null, e + "\n");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay estudiantes en esa carrera registrados.");
+        }
     }
 }
