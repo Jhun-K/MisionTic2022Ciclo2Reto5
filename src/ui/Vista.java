@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.sql.SQLException;
 import controlador.Controlador;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Vista {
@@ -117,47 +119,55 @@ public class Vista {
     }
 
     private void vistaOpcion3() {
-        /*
         String mensaje = "Modificar estudiante\n" + "Ingresar correo institucional:";
         String correoInstitucional = JOptionPane.showInputDialog(mensaje);
-        boolean existe = controlador.getPrograma().existenciaEstudiante(correoInstitucional);
-        if (existe) {
-            System.out.println("Ingresar correo personal:");
-            String correoPersonal = lectorDatos.nextLine();
-            System.out.println("Ingresar número de celular:");
+        Estudiante es = null;
+        
+        try {
+            es = controlador.getPrograma().buscarEstudianteBD(correoInstitucional);
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error: " + ex);
+        }
+        
+        if (es != null) {
+            String correoPersonal = JOptionPane.showInputDialog("Ingresar correo personal:");
+            
             long numeroCelular;
             try {
-                numeroCelular = Long.parseLong(lectorDatos.nextLine());
+                numeroCelular = Long.parseLong(
+                        JOptionPane.showInputDialog("Ingresar número de celular:")
+                );
             } catch (NumberFormatException e) {
-                System.out.println("El dato ingresado no es un número");
+                JOptionPane.showMessageDialog(null, "El dato ingresado no es un número");
                 numeroCelular = 0;
             }
-            System.out.println("Ingresar número fijo:");
+            
             long numeroFijo;
             try {
-                numeroFijo = Long.parseLong(lectorDatos.nextLine());
+                numeroFijo = Long.parseLong(
+                        JOptionPane.showInputDialog("Ingresar número fijo:")
+                );
             } catch (NumberFormatException e) {
-                System.out.println("El dato ingresado no es un número");
+                JOptionPane.showMessageDialog(null, "El dato ingresado no es un número");
                 numeroFijo = 0;
             }
-            System.out.println("Ingresar programa:");
-            String carrera = lectorDatos.nextLine();
+            
+            String carrera = JOptionPane.showInputDialog("Ingresar programa:");
             
             try {
                 controlador.getPrograma().modificarDatosEstudianteDB(
                         correoInstitucional, correoPersonal, numeroCelular, 
                         numeroFijo, carrera);
-            } catch ( ClassNotFoundException | SQLException e ) {
-                System.out.println("Error: " + e);
+            } catch ( ClassNotFoundException | SQLException ex ) {
+                JOptionPane.showMessageDialog(null, "Error: " + ex);
             }
             
-            System.out.println("Se modificó el estudiante");
-            System.out.println();
+            JOptionPane.showMessageDialog(null, "Se modificó el estudiante");
         } else {
-            System.out.println("El estudiante no se encuentra registrado en el instituto");
-            System.out.println();
+            JOptionPane.showMessageDialog(
+                    null, "El estudiante no se encuentra registrado en el instituto"
+            );
         }
-        */
     }
 
     private void vistaOpcion4() {
@@ -194,7 +204,7 @@ public class Vista {
         ArrayList<Estudiante> estudiantes = controlador.getPrograma().getEstudiantes();
         String mensaje = "El directorio de los estudiantes\n";
         for (var e : estudiantes) {
-            mensaje += e;
+            mensaje += e + "\n";
         }
         JOptionPane.showMessageDialog(null, mensaje);
     }
