@@ -16,16 +16,16 @@ public class Vista {
 
     public void mostrarMenu() {
         boolean terminarCiclo = false;
-        
-        String mensajeMenu = "INSTITUTO LA FLORESTA\n" +
-            "Seleccione tarea a realizar:\n" 
-            + "1. Ingresar estudiante\n"
-            + "2. Buscar estudiante\n"
-            + "3. Modificar estudiante \n"
-            + "4. Eliminar Estudiante\n"
-            + "5. Ver directorio de estudiantes\n"
-            + "6. Salir\n"
-            + "Opción:\n";
+
+        String mensajeMenu = "INSTITUTO LA FLORESTA\n"
+                + "Seleccione tarea a realizar:\n"
+                + "1. Ingresar estudiante\n"
+                + "2. Buscar estudiante\n"
+                + "3. Modificar estudiante \n"
+                + "4. Eliminar Estudiante\n"
+                + "5. Ver directorio de estudiantes\n"
+                + "6. Salir\n"
+                + "Opción:\n";
 
         while (!terminarCiclo) {
             int opcion;
@@ -85,36 +85,36 @@ public class Vista {
             numeroFijo = 0;
         }
         String carrera = JOptionPane.showInputDialog("Ingresar programa:");
-        
+
         try {
             controlador.getPrograma().agregarEstudianteDB(
-                    nombres, apellidos, fechaNacimiento, correoInstitucional, 
+                    nombres, apellidos, fechaNacimiento, correoInstitucional,
                     correoPersonal, numeroCelular, numeroFijo, carrera);
-        } catch( ClassNotFoundException | SQLException e ) {
+        } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, "Error: " + e);
         }
-        
+
         JOptionPane.showMessageDialog(null, "Se agregó el estudiante");
     }
 
     private void vistaOpcion2() {
-        String mensaje = "Buscar un estudiante.\n" 
-            + "1. Buscar estudiante por medio de su correo institucional.\n"
-            + "2. Buscar estudiantes por medio de un apellido.\n"
-            + "3. Mostrar los datos de los estudiantes que estan en un determinado programa.\n"
-            + "4. Mostrar el numero de estudiantes que estan en un determinado programa.\n"
-            + "5. Mostrar estudiantes nacidos en una determinada fecha.\n"
-            + "6. Buscar estudiante por medio de su numero de telefono.\n";
-        
+        String mensaje = "Buscar un estudiante.\n"
+                + "1. Buscar estudiante por medio de su correo institucional.\n"
+                + "2. Buscar estudiantes por medio de un apellido.\n"
+                + "3. Mostrar los datos de los estudiantes que estan en un determinado programa.\n"
+                + "4. Mostrar el numero de estudiantes que estan en un determinado programa.\n"
+                + "5. Mostrar estudiantes nacidos en una determinada fecha.\n"
+                + "6. Buscar estudiante por medio de su numero de telefono.\n";
+
         int opcion;
-        
+
         try {
             opcion = Integer.parseInt(JOptionPane.showInputDialog(mensaje));
-        } catch ( NumberFormatException ex ) {
+        } catch (NumberFormatException ex) {
             opcion = 0;
         }
-        
-        switch ( opcion ) {
+
+        switch (opcion) {
             case 1:
                 opcion1VO2();
                 break;
@@ -143,16 +143,16 @@ public class Vista {
         String mensaje = "Modificar estudiante\n" + "Ingresar correo institucional:";
         String correoInstitucional = JOptionPane.showInputDialog(mensaje);
         Estudiante es = null;
-        
+
         try {
             es = controlador.getPrograma().buscarEstudianteBD(correoInstitucional);
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error: " + ex);
         }
-        
+
         if (es != null) {
             String correoPersonal = JOptionPane.showInputDialog("Ingresar correo personal:");
-            
+
             long numeroCelular;
             try {
                 numeroCelular = Long.parseLong(
@@ -162,7 +162,7 @@ public class Vista {
                 JOptionPane.showMessageDialog(null, "El dato ingresado no es un número");
                 numeroCelular = 0;
             }
-            
+
             long numeroFijo;
             try {
                 numeroFijo = Long.parseLong(
@@ -172,17 +172,17 @@ public class Vista {
                 JOptionPane.showMessageDialog(null, "El dato ingresado no es un número");
                 numeroFijo = 0;
             }
-            
+
             String carrera = JOptionPane.showInputDialog("Ingresar programa:");
-            
+
             try {
                 controlador.getPrograma().modificarDatosEstudianteDB(
-                        correoInstitucional, correoPersonal, numeroCelular, 
+                        correoInstitucional, correoPersonal, numeroCelular,
                         numeroFijo, carrera);
-            } catch ( ClassNotFoundException | SQLException ex ) {
+            } catch (ClassNotFoundException | SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Error: " + ex);
             }
-            
+
             JOptionPane.showMessageDialog(null, "Se modificó el estudiante");
         } else {
             JOptionPane.showMessageDialog(
@@ -194,32 +194,32 @@ public class Vista {
     private void vistaOpcion4() {
         String mensaje = "Eliminar estudiante\n" + "Ingresar correo institucional:";
         String correoInstitucional = JOptionPane.showInputDialog(mensaje);
-        
+
         Estudiante estudiante = null;
-        
+
         try {
             estudiante = controlador.getPrograma().buscarEstudianteBD(correoInstitucional);
-        } catch ( ClassNotFoundException | SQLException e ) {
+        } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, "Error: " + e);
         }
-        
-        if ( estudiante != null ) {
+
+        if (estudiante != null) {
             try {
                 controlador.getPrograma().eliminarEstudianteDB(correoInstitucional);
-            } catch ( ClassNotFoundException | SQLException e ) {
+            } catch (ClassNotFoundException | SQLException e) {
                 JOptionPane.showMessageDialog(null, "Error: " + e);
             }
             JOptionPane.showMessageDialog(null, "Se eliminó el estudiante");
         } else {
-            JOptionPane.showMessageDialog(null, 
-                "El estudiante no se encuentra registrado en el instituto");
+            JOptionPane.showMessageDialog(null,
+                    "El estudiante no se encuentra registrado en el instituto");
         }
     }
 
     private void vistaOpcion5() {
         try {
             controlador.getPrograma().cargarEstudiantesDesdeBD();
-        } catch(ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, "Error: " + e);
         }
         ArrayList<Estudiante> estudiantes = controlador.getPrograma().getEstudiantes();
@@ -229,105 +229,103 @@ public class Vista {
         }
         JOptionPane.showMessageDialog(null, mensaje);
     }
-    
-    private void opcion1VO2()
-    {
+
+    private void opcion1VO2() {
         String mensaje = "Buscar estudiante\n" + "Ingresar correo institucional:";
         String correoInstitucional = JOptionPane.showInputDialog(mensaje);
-        
+
         Estudiante e = null;
         try {
-            e = controlador.getPrograma().buscarEstudianteBD(correoInstitucional); 
-        } catch ( ClassNotFoundException | SQLException ex ) {
+            e = controlador.getPrograma().buscarEstudianteBD(correoInstitucional);
+        } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error: " + ex);
         }
-        
-        if ( e != null ) {
+
+        if (e != null) {
             JOptionPane.showMessageDialog(null, "Información del estudiante\n" + e);
         } else {
             JOptionPane.showMessageDialog(null, "El estudiante no se encuentra registrado en el instituto");
         }
     }
-    
-    private void opcion2VO2()
-    {
+
+    private void opcion2VO2() {
         String mensaje = "Ingresa el apellido: ";
         String apellidos = JOptionPane.showInputDialog(mensaje);
-        
+
         ArrayList<Estudiante> est;
-        
+
         try {
             est = controlador.getPrograma().buscarEstudiantePorApellidosBD(apellidos);
-        } catch ( ClassNotFoundException | SQLException ex ) {
+        } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error: " + ex);
             est = new ArrayList<>();
-        } 
-        
-        if ( est.size() != 0 ) {
-            for ( var e : est ) {
+        }
+
+        if (est.size() != 0) {
+            for (var e : est) {
                 JOptionPane.showMessageDialog(null, e + "\n");
             }
         } else {
             JOptionPane.showMessageDialog(null, "No hay estudiantes con ese apellido.");
         }
     }
-    
-    private void opcion3VO2(){
+
+    private void opcion3VO2() {
         String mensaje = "Ingresa la carrera: ";
         String carrera = JOptionPane.showInputDialog(mensaje);
-        
+
         ArrayList<Estudiante> est;
-        
+
         try {
             est = controlador.getPrograma().buscarEstudiantesPorCarreraBD(carrera);
-        } catch ( ClassNotFoundException | SQLException ex ) {
+        } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error: " + ex);
             est = new ArrayList<>();
-        } 
-        
-        if ( est.size() != 0 ) {
+        }
+
+        if (est.size() != 0) {
             String msj = "";
-            for ( var e : est ) {
-                msj += "Nombre: " + e.getNombre() + ", Apellido: "+ e.getApellido() + "\n";
+            for (var e : est) {
+                msj += "Nombre: " + e.getNombre() + ", Apellido: " + e.getApellido() + "\n";
             }
             JOptionPane.showMessageDialog(null, msj);
         } else {
             JOptionPane.showMessageDialog(null, "No hay estudiantes en esa carrera registrados.");
         }
     }
-    
-    private void opcion4VO2(){
+
+    private void opcion4VO2() {
         String mensaje = "Ingresa la carrera: ";
         String carrera = JOptionPane.showInputDialog(mensaje);
-        
-        try{
+
+        try {
             int x = controlador.getPrograma().contarEstudiantesPorCarreraBD(carrera);
-            if ( x == 0 ) {
+            if (x == 0) {
                 JOptionPane.showMessageDialog(null, "No hay estudiantes en esta carrera.");
             } else {
                 String msj = "El numero de estudiantes de esta carrera son: " + x;
                 JOptionPane.showMessageDialog(null, msj);
             }
-        } catch ( ClassNotFoundException | SQLException ex ) {
+        } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error: " + ex);
         }
     }
-    
-    private void opcion5VO2(){
+
+    private void opcion5VO2() {
         String mensaje = "Ingresa la fecha de nacimiento.";
         String fechaNacimiento = JOptionPane.showInputDialog(mensaje);
         String datos = "";
         ArrayList<Estudiante> est;
-        
-        try{
-            est = controlador.getPrograma().buscarEstudiantesPorFechaNacimientoBD( fechaNacimiento );
-        } catch ( ClassNotFoundException | SQLException ex ) {
+
+        try {
+            est = controlador.getPrograma().buscarEstudiantesPorFechaNacimientoBD(fechaNacimiento);
+        } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error: " + ex);
             est = new ArrayList<>();
         }
-        
-        if ( est.size() != 0 ) {
-            for ( var e : est ) {
+
+        if (est.size() != 0) {
+            for (var e : est) {
                 datos += e + "\n";
             }
             JOptionPane.showMessageDialog(null, datos);
@@ -335,25 +333,35 @@ public class Vista {
             JOptionPane.showMessageDialog(null, "No hay estudiantes nacidos en esa fecha.");
         }
     }
-    
-    private void opcion6VO2(){
+
+    private void opcion6VO2() {
         String mensaje = "Digita el numero del estudiante.";
-        long numeroCelular = Long.parseLong(JOptionPane.showInputDialog(mensaje));
+        long numeroCelular;
+
+        try {
+            numeroCelular = Long.parseLong(JOptionPane.showInputDialog(mensaje));
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Digite numeros solamente.");
+            numeroCelular = 0;
+        }
+
         String datos = "Datos estudiante.\n";
         Estudiante e = null;
-        
-        try {
-            e = controlador.getPrograma().buscarEstudiantePorTelefonoBD(numeroCelular);
-        } catch ( ClassNotFoundException | SQLException ex ) {
-            JOptionPane.showMessageDialog(null, "Error: " + ex);
-        }
-        
-        if ( e != null ) {
-            datos += e.getNombre() + "\n";
-            datos += e.getCarrera();
-            JOptionPane.showMessageDialog(null, datos);
-        } else {
-            JOptionPane.showMessageDialog(null, "No existe ningun estudiante con este numero.");
+
+        if (numeroCelular != 0) {
+            try {
+                e = controlador.getPrograma().buscarEstudiantePorTelefonoBD(numeroCelular);
+            } catch (ClassNotFoundException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error: " + ex);
+            }
+
+            if (e != null) {
+                datos += e.getNombre() + "\n";
+                datos += e.getCarrera();
+                JOptionPane.showMessageDialog(null, datos);
+            } else {
+                JOptionPane.showMessageDialog(null, "No existe ningun estudiante con este numero.");
+            }
         }
     }
 }
