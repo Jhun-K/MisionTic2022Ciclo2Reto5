@@ -337,6 +337,23 @@ public class Vista {
     }
     
     private void opcion6VO2(){
+        String mensaje = "Digita el numero del estudiante.";
+        long numeroCelular = Long.parseLong(JOptionPane.showInputDialog(mensaje));
+        String datos = "Datos estudiante.\n";
+        Estudiante e = null;
         
+        try {
+            e = controlador.getPrograma().buscarEstudiantePorTelefonoBD(numeroCelular);
+        } catch ( ClassNotFoundException | SQLException ex ) {
+            JOptionPane.showMessageDialog(null, "Error: " + ex);
+        }
+        
+        if ( e != null ) {
+            datos += e.getNombre() + "\n";
+            datos += e.getCarrera();
+            JOptionPane.showMessageDialog(null, datos);
+        } else {
+            JOptionPane.showMessageDialog(null, "No existe ningun estudiante con este numero.");
+        }
     }
 }

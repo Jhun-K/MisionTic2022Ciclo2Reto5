@@ -368,5 +368,48 @@ public class Programa {
         
         return estudiantesBD;
     }
+    
+    public Estudiante buscarEstudiantePorTelefonoBD( long numeroCelular )
+    throws ClassNotFoundException, SQLException 
+    {
+        Estudiante estudiante = null;
+        
+        Connection connection;
+        PreparedStatement ps;
+        ResultSet rs;
+        
+        String nombres;
+        String apellidos;
+        String fechaNacimiento;
+        String correoInstitucional;
+        String correoPersonal;
+        long numeroFijo;
+        String carrera;
+        
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        connection = DriverManager.getConnection(URL, USUARIO, CONTRASEÑA);
+        
+        ps = connection.prepareStatement(
+            "SELECT * FROM estudiantes WHERE NumeroCelular=?;"
+        );
+        ps.setString(1, "" + numeroCelular);
+        rs = ps.executeQuery();
+        
+        if ( rs.next() ) {
+            nombres = rs.getString("Nombres");
+            apellidos = rs.getString("Apellidos");
+            fechaNacimiento = rs.getString("FechaNacimiento");
+            correoInstitucional = rs.getString("CorreoInstitucional");
+            correoPersonal = rs.getString("CorreoPersonal");
+            numeroCelular = Long.parseLong(rs.getString("NumeroCelular"));
+            numeroFijo = Long.parseLong(rs.getString("NumeroFijo"));
+            carrera = rs.getString("Carrera");
+            estudiante = new Estudiante(nombres, apellidos, fechaNacimiento, 
+                    correoInstitucional, correoPersonal, numeroCelular, 
+                    numeroFijo, carrera);
+        }
+        return estudiante;
+
+    }
 
 }
