@@ -290,5 +290,83 @@ public class Programa {
         
         return estudiantesBD;
     }
+    
+    public int contarEstudiantesPorCarreraBD( String carrera )
+    throws ClassNotFoundException, SQLException
+    {
+        int resultado;
+        
+        ArrayList<Estudiante> estudiantesBD = new ArrayList<>();
+        
+        Connection connection;
+        PreparedStatement ps;
+        ResultSet rs;
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        connection = DriverManager.getConnection(URL, USUARIO, CONTRASEÑA);
+        
+        String nombres;
+        String apellidos;
+        
+        ps = connection.prepareStatement
+        (
+           "SELECT Nombres, Apellidos FROM estudiantes WHERE Carrera=?;"
+        );
+        ps.setString(1, carrera);
+        rs = ps.executeQuery();
+        
+        while ( rs.next() ) {
+            nombres = rs.getString("Nombres");
+            apellidos = rs.getString("Apellidos");
+            estudiantesBD.add(new Estudiante(nombres, apellidos));
+        }
+        
+        resultado = estudiantesBD.size();
+        
+        return resultado;
+    }
+    
+    public ArrayList<Estudiante> buscarEstudiantesPorFechaNacimientoBD( String fechaNacimiento )
+    throws ClassNotFoundException, SQLException   
+    {
+        ArrayList<Estudiante> estudiantesBD = new ArrayList<>();
+        
+        Connection connection;
+        PreparedStatement ps;
+        ResultSet rs;
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        connection = DriverManager.getConnection(URL, USUARIO, CONTRASEÑA);
+        
+        String nombres;
+        String apellidos;
+        String correoInstitucional;
+        String correoPersonal;
+        long numeroCelular;
+        long numeroFijo;
+        String carrera;
+        
+        ps = connection.prepareStatement
+        (
+           "SELECT * FROM estudiantes WHERE FechaNacimiento=?;"
+        );
+        ps.setString(1, fechaNacimiento);
+        rs = ps.executeQuery();
+        
+        while ( rs.next() ) {
+            nombres = rs.getString("Nombres");
+            apellidos = rs.getString("Apellidos");
+            fechaNacimiento = rs.getString("FechaNacimiento");
+            correoInstitucional = rs.getString("CorreoInstitucional");
+            correoPersonal = rs.getString("CorreoPersonal");
+            numeroCelular = Long.parseLong(rs.getString("NumeroCelular"));
+            numeroFijo = Long.parseLong(rs.getString("NumeroFijo"));
+            carrera = rs.getString("Carrera");
+            estudiantesBD.add(new Estudiante
+                (nombres, apellidos, fechaNacimiento, correoInstitucional, correoPersonal,
+                numeroCelular, numeroFijo, carrera)
+            );
+        }
+        
+        return estudiantesBD;
+    }
 
 }

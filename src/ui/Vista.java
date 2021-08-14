@@ -125,10 +125,13 @@ public class Vista {
                 opcion3VO2();
                 break;
             case 4:
+                opcion4VO2();
                 break;
             case 5:
+                opcion5VO2();
                 break;
             case 6:
+                opcion6VO2();
                 break;
             default:
                 JOptionPane.showMessageDialog(null, "Digita una opcion valida.");
@@ -283,11 +286,57 @@ public class Vista {
         } 
         
         if ( est.size() != 0 ) {
+            String msj = "";
             for ( var e : est ) {
-                JOptionPane.showMessageDialog(null, e + "\n");
+                msj += "Nombre: " + e.getNombre() + ", Apellido: "+ e.getApellido() + "\n";
             }
+            JOptionPane.showMessageDialog(null, msj);
         } else {
             JOptionPane.showMessageDialog(null, "No hay estudiantes en esa carrera registrados.");
         }
+    }
+    
+    private void opcion4VO2(){
+        String mensaje = "Ingresa la carrera: ";
+        String carrera = JOptionPane.showInputDialog(mensaje);
+        
+        try{
+            int x = controlador.getPrograma().contarEstudiantesPorCarreraBD(carrera);
+            if ( x == 0 ) {
+                JOptionPane.showMessageDialog(null, "No hay estudiantes en esta carrera.");
+            } else {
+                String msj = "El numero de estudiantes de esta carrera son: " + x;
+                JOptionPane.showMessageDialog(null, msj);
+            }
+        } catch ( ClassNotFoundException | SQLException ex ) {
+            JOptionPane.showMessageDialog(null, "Error: " + ex);
+        }
+    }
+    
+    private void opcion5VO2(){
+        String mensaje = "Ingresa la fecha de nacimiento.";
+        String fechaNacimiento = JOptionPane.showInputDialog(mensaje);
+        String datos = "";
+        ArrayList<Estudiante> est;
+        
+        try{
+            est = controlador.getPrograma().buscarEstudiantesPorFechaNacimientoBD( fechaNacimiento );
+        } catch ( ClassNotFoundException | SQLException ex ) {
+            JOptionPane.showMessageDialog(null, "Error: " + ex);
+            est = new ArrayList<>();
+        }
+        
+        if ( est.size() != 0 ) {
+            for ( var e : est ) {
+                datos += e + "\n";
+            }
+            JOptionPane.showMessageDialog(null, datos);
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay estudiantes nacidos en esa fecha.");
+        }
+    }
+    
+    private void opcion6VO2(){
+        
     }
 }
