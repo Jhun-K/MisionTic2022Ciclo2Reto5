@@ -141,6 +141,7 @@ public class Programa {
         ps.setString(7, "" + numeroFijo);
         ps.setString(8, carrera);
         ps.executeUpdate();
+        agregarEstudiante(nombres, apellidos, fechaNacimiento, correoInstitucional, correoPersonal, numeroCelular, numeroFijo, carrera);
     }
 
     public void eliminarEstudianteDB(String correoInstitucional)
