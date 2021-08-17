@@ -15,6 +15,12 @@ public class Vista {
     }
 
     public void mostrarMenu() {
+        try {
+            controlador.getPrograma().cargarEstudiantesDesdeBD();
+        } catch (ClassNotFoundException | SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e);
+        }
+        
         boolean terminarCiclo = false;
 
         String mensajeMenu = "INSTITUTO LA FLORESTA\n"
@@ -174,7 +180,6 @@ public class Vista {
             }
 
             String carrera = JOptionPane.showInputDialog("Ingresar programa:");
-
             try {
                 controlador.getPrograma().modificarDatosEstudianteDB(
                         correoInstitucional, correoPersonal, numeroCelular,
@@ -217,11 +222,6 @@ public class Vista {
     }
 
     private void vistaOpcion5() {
-        try {
-            controlador.getPrograma().cargarEstudiantesDesdeBD();
-        } catch (ClassNotFoundException | SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e);
-        }
         ArrayList<Estudiante> estudiantes = controlador.getPrograma().getEstudiantes();
         String mensaje = "El directorio de los estudiantes\n";
         for (var e : estudiantes) {

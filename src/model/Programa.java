@@ -154,6 +154,7 @@ public class Programa {
         );
         ps.setString(1, correoInstitucional);
         ps.executeUpdate();
+        eliminarEstudiante(correoInstitucional);
     }
 
     public void modificarDatosEstudianteDB(String correoInstitucional, String correoPersonal, long numeroCelular,
@@ -173,6 +174,8 @@ public class Programa {
         ps.setString(3, "" + numeroFijo);
         ps.setString(4, carrera);
         ps.executeUpdate();
+        
+        modificarDatosEstudiante(correoInstitucional, correoPersonal, numeroCelular, numeroFijo, carrera);
     }
     
     public Estudiante buscarEstudianteBD( String correoInstitucional )
